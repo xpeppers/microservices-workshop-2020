@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
 import java.util.UUID;
 
 public class OrderAPI {
@@ -23,8 +24,12 @@ public class OrderAPI {
         return asJson(order);
     }
 
-    private String asJson(Order order) {
-        return (new Gson()).toJson(order);
+    String list(Request request, Response response) {
+        return asJson(orderService.orders());
+    }
+
+    private String asJson(Object object) {
+        return (new Gson()).toJson(object);
     }
 
 }

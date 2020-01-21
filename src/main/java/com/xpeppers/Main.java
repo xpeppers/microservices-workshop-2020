@@ -1,7 +1,6 @@
 package com.xpeppers;
 
-import static spark.Spark.port;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -13,6 +12,7 @@ public class Main {
 
         port(8282);
         post("/orders", orderAPI::create);
+        get("/orders", orderAPI::list);
     }
 
 }

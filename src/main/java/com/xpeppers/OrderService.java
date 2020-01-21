@@ -1,5 +1,7 @@
 package com.xpeppers;
 
+import java.util.List;
+
 public class OrderService {
     private OrderRepository orderRepository;
     private Warehouse warehouse;
@@ -14,5 +16,9 @@ public class OrderService {
         orderRepository.add(handledOrder);
 
         return handledOrder;
+    }
+
+    public List<Order> orders() {
+        return orderRepository.all();
     }
 }

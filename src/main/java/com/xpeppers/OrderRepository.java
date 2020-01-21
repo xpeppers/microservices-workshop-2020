@@ -9,4 +9,8 @@ public class OrderRepository {
     public void add(Order order) {
         orders.add(order);
     }
+
+    public List<Order> all() {
+        return orders;
+    }
 }
