@@ -27,6 +27,10 @@ public class Order {
         return new Order(uuid, productCode, productQuantity, "placed");
     }
 
+    public Order paid() {
+        return new Order(uuid, productCode, productQuantity, "paid");
+    }
+
     public UUID id() {
         return uuid;
     }
@@ -37,5 +41,9 @@ public class Order {
 
     public Integer productQuantity() {
         return productQuantity;
+    }
+
+    public boolean canBePaid() {
+        return "placed".equals(status) || "reserved".equals(status);
     }
 }
