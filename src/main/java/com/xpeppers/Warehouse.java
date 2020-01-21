@@ -16,6 +16,11 @@ public class Warehouse {
     public Order reserveProductsFor(Order order) {
         if (productsCanBeReservedFor(order)) {
             reserveFor(order);
+            System.out.println("---------------------------------------------------");
+            System.out.println("From: xcommerce");
+            System.out.println("To: user@wonderfuldomain.com");
+            System.out.println("Body: your order for " + order.productCode() + " has been reserved.");
+            System.out.println("---------------------------------------------------");
             return order.reserved();
         }
         return order.placed();
