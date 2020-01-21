@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Warehouse {
     private static final Map<String, Integer> products = new HashMap<String, Integer>() {{
-        put("111", 1);
-        put("222", 2);
-        put("333", 3);
-        put("444", 4);
-        put("555", 5);
+        put("hat", 1);
+        put("shirt", 2);
+        put("trousers", 3);
+        put("socks", 4);
+        put("shoes", 5);
     }};
 
     private static final List<ReservedProduct> reservedProducts = new ArrayList<>();
