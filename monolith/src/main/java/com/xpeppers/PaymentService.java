@@ -4,11 +4,9 @@ import java.util.UUID;
 
 public class PaymentService {
     private OrderRepository orderRepository;
-    private PaymentRepository paymentRepository;
 
-    public PaymentService(OrderRepository orderRepository, PaymentRepository paymentRepository) {
+    public PaymentService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.paymentRepository = paymentRepository;
     }
 
     public Payment payOrderWith(UUID id) {
@@ -19,7 +17,6 @@ public class PaymentService {
         if (payment.isCompleted())
             orderRepository.update(order.paid());
 
-        paymentRepository.add(payment);
         return payment;
     }
 

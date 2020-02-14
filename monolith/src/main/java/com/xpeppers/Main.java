@@ -16,8 +16,7 @@ public class Main {
     }
 
     private static PaymentAPI paymentAPI(OrderRepository orderRepository) {
-        PaymentRepository paymentRepository = new PaymentRepository();
-        PaymentService paymentService = new PaymentService(orderRepository, paymentRepository);
+        PaymentService paymentService = new PaymentService(orderRepository);
         return new PaymentAPI(paymentService);
     }
 
