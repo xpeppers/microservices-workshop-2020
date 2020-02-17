@@ -13,7 +13,12 @@ services:
   monolith:
     build: ./monolith/
     labels:
-      - "traefik.http.routers.monolith.rule=Path(`/orders`) || Path(`/payments`)"
+      - "traefik.http.routers.monolith.rule=PathPrefix(`/orders`)"
+
+  payments:
+    build: ./payments/
+    labels:
+      - "traefik.http.routers.payments.rule=Path(`/payments`)"
 
   notifications:
     build: ./notifications/
