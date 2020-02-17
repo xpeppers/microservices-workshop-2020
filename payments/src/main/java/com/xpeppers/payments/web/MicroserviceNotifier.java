@@ -1,8 +1,11 @@
 package com.xpeppers.payments.web;
 
+import org.springframework.stereotype.Component;
+
 import static kong.unirest.Unirest.post;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
+@Component
 public class MicroserviceNotifier implements Notifier {
 
     @Override

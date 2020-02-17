@@ -27,8 +27,29 @@ public class OrderAPI {
         return asJson(orderService.orders());
     }
 
+    public String findBy(Request request, Response response) {
+        UUID orderId = UUID.fromString(request.params(":id"));
+        try {
+            return asJson(orderService.findBy(orderId));
+        } catch (Exception e) {
+            response.status(404);
+            return "";
+        }
+    }
+
+    public String markAsPaid(Request request, Response response) {
+        UUID orderId = UUID.fromString(request.params(":id"));
+        try {
+            Order order = orderService.findBy(orderId);
+            Order paidOrder = orderService.markAsPaid(order);
+            return asJson(paidOrder);
+        } catch (Exception e) {
+            response.status(404);
+            return "";
+        }
+    }
+
     private String asJson(Object object) {
         return (new Gson()).toJson(object);
     }
-
 }

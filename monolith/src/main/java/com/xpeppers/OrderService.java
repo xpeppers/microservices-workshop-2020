@@ -1,6 +1,7 @@
 package com.xpeppers;
 
 import java.util.List;
+import java.util.UUID;
 
 public class OrderService {
     private OrderRepository orderRepository;
@@ -20,5 +21,15 @@ public class OrderService {
 
     public List<Order> orders() {
         return orderRepository.all();
+    }
+
+    public Order findBy(UUID id) {
+        return orderRepository.findBy(id);
+    }
+
+    public Order markAsPaid(Order order) {
+        Order updatedOrder = order.paid();
+        orderRepository.update(updatedOrder);
+        return updatedOrder;
     }
 }

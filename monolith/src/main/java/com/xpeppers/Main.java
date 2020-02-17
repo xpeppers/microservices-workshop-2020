@@ -14,6 +14,8 @@ public class Main {
         port(8282);
         post("/orders", orderAPI::create);
         get("/orders", orderAPI::list);
+        get("/orders/:id", orderAPI::findBy);
+        post("/orders/:id/markAsPaid", orderAPI::markAsPaid);
         post("/payments", paymentAPI::create);
     }
 
