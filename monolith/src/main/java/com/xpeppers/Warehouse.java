@@ -12,9 +12,9 @@ public class Warehouse {
     }};
 
     private static final List<ReservedProduct> reservedProducts = new ArrayList<>();
-    private MonolithNotifier notifier;
+    private Notifier notifier;
 
-    public Warehouse(MonolithNotifier notifier) {
+    public Warehouse(Notifier notifier) {
         this.notifier = notifier;
     }
 

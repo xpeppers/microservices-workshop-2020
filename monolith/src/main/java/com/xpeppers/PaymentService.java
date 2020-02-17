@@ -3,10 +3,10 @@ package com.xpeppers;
 import java.util.UUID;
 
 public class PaymentService {
-    private final MonolithNotifier notifier;
+    private final Notifier notifier;
     private OrderRepository orderRepository;
 
-    public PaymentService(OrderRepository orderRepository, MonolithNotifier notifier) {
+    public PaymentService(OrderRepository orderRepository, Notifier notifier) {
         this.orderRepository = orderRepository;
         this.notifier = notifier;
     }

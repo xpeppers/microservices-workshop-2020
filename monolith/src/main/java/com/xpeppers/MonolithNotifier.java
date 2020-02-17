@@ -1,8 +1,9 @@
 package com.xpeppers;
 
-public class MonolithNotifier {
+public class MonolithNotifier implements Notifier {
 
-    void sendEmail(String to, String body) {
+    @Override
+    public void sendEmail(String to, String body) {
         System.out.println("---------------------------------------------------");
         System.out.println("From: xcommerce");
         System.out.println("To: " + to);
