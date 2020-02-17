@@ -12,15 +12,18 @@ public class Warehouse {
     }};
 
     private static final List<ReservedProduct> reservedProducts = new ArrayList<>();
+    private MonolithNotifier notifier;
+
+    public Warehouse(MonolithNotifier notifier) {
+        this.notifier = notifier;
+    }
 
     public Order reserveProductsFor(Order order) {
         if (productsCanBeReservedFor(order)) {
             reserveFor(order);
-            System.out.println("---------------------------------------------------");
-            System.out.println("From: xcommerce");
-            System.out.println("To: user@wonderfuldomain.com");
-            System.out.println("Body: your order for " + order.productCode() + " has been reserved.");
-            System.out.println("---------------------------------------------------");
+            String to = "user@wonderfuldomain.com";
+            String body = "Body: your order for " + order.productCode() + " has been reserved.";
+            notifier.sendEmail(to, body);
             return order.reserved();
         }
         return order.placed();

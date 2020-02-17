@@ -3,10 +3,12 @@ package com.xpeppers;
 import java.util.UUID;
 
 public class PaymentService {
+    private final MonolithNotifier notifier;
     private OrderRepository orderRepository;
 
-    public PaymentService(OrderRepository orderRepository) {
+    public PaymentService(OrderRepository orderRepository, MonolithNotifier notifier) {
         this.orderRepository = orderRepository;
+        this.notifier = notifier;
     }
 
     public Payment payOrderWith(UUID id) {
@@ -24,18 +26,10 @@ public class PaymentService {
         UUID orderId = order.id();
         if (order.canBePaid()) {
             // payment logic (call external service like PayPal or other)
-            sendEmail("user@wonderfuldomain.com", "your order for " + order.productCode() + " has been paid.");
+            notifier.sendEmail("user@wonderfuldomain.com", "your order for " + order.productCode() + " has been paid.");
             return Payment.completed(orderId);
         }
 
         return Payment.failed(orderId);
-    }
-
-    private void sendEmail(String to, String body) {
-        System.out.println("---------------------------------------------------");
-        System.out.println("From: xcommerce");
-        System.out.println("To: " + to);
-        System.out.println("Body: " + body);
-        System.out.println("---------------------------------------------------");
     }
 }

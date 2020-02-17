@@ -5,9 +5,11 @@ import static spark.Spark.*;
 public class Main {
 
     public static void main(String[] args) {
+        MonolithNotifier notifier = new MonolithNotifier();
         OrderRepository orderRepository = new OrderRepository();
-        OrderAPI orderAPI = orderAPI(orderRepository);
-        PaymentAPI paymentAPI = paymentAPI(orderRepository);
+
+        OrderAPI orderAPI = orderAPI(orderRepository, notifier);
+        PaymentAPI paymentAPI = paymentAPI(orderRepository, notifier);
 
         port(8282);
         post("/orders", orderAPI::create);
@@ -15,13 +17,13 @@ public class Main {
         post("/payments", paymentAPI::create);
     }
 
-    private static PaymentAPI paymentAPI(OrderRepository orderRepository) {
-        PaymentService paymentService = new PaymentService(orderRepository);
+    private static PaymentAPI paymentAPI(OrderRepository orderRepository, MonolithNotifier notifier) {
+        PaymentService paymentService = new PaymentService(orderRepository, notifier);
         return new PaymentAPI(paymentService);
     }
 
-    private static OrderAPI orderAPI(OrderRepository orderRepository) {
-        Warehouse warehouse = new Warehouse();
+    private static OrderAPI orderAPI(OrderRepository orderRepository, MonolithNotifier notifier) {
+        Warehouse warehouse = new Warehouse(notifier);
         OrderService orderService = new OrderService(orderRepository, warehouse);
         return new OrderAPI(orderService);
     }
