@@ -9,19 +9,12 @@ public class Main {
         OrderRepository orderRepository = new OrderRepository();
 
         OrderAPI orderAPI = orderAPI(orderRepository, notifier);
-        PaymentAPI paymentAPI = paymentAPI(orderRepository, notifier);
 
         port(8282);
         post("/orders", orderAPI::create);
         get("/orders", orderAPI::list);
         get("/orders/:id", orderAPI::findBy);
         post("/orders/:id/markAsPaid", orderAPI::markAsPaid);
-        post("/payments", paymentAPI::create);
-    }
-
-    private static PaymentAPI paymentAPI(OrderRepository orderRepository, Notifier notifier) {
-        PaymentService paymentService = new PaymentService(orderRepository, notifier);
-        return new PaymentAPI(paymentService);
     }
 
     private static OrderAPI orderAPI(OrderRepository orderRepository, Notifier notifier) {
