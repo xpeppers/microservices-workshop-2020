@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  proxy:
+    image: traefik:v2.0
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  monolith:
+    build: ./monolith/
+    labels:
+      - "traefik.http.routers.monolith.rule=Path(`/orders`) || Path(`/payments`)"
+
+  notifications:
+    build: ./notifications/
+    labels:
+      - "traefik.http.routers.notifications.rule=Path(`/v1/notifications`)"
