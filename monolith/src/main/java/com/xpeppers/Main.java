@@ -5,7 +5,7 @@ import static spark.Spark.*;
 public class Main {
 
     public static void main(String[] args) {
-        Notifier notifier = new MonolithNotifier();
+        Notifier notifier = new MicroserviceNotifier();
         OrderRepository orderRepository = new OrderRepository();
 
         OrderAPI orderAPI = orderAPI(orderRepository, notifier);
