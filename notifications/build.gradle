@@ -12,8 +12,17 @@ repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR1"
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.retry:spring-retry:1.1.5.RELEASE'
+	implementation 'org.springframework:spring-aspects'
 }
 
 jar {

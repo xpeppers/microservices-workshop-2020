@@ -1,2 +1,12 @@
 server:
-  port: 8383
+  port: 0
+
+spring:
+  application:
+    name: notifications
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl.defaultZone: http://eureka-server:8181/eureka/
