@@ -1,0 +1,11 @@
+server:
+  port: 8181
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url:
+      defaultZone: http://localhost:8181/eureka
+  dashboard:
+    path: /discovery
