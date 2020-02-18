@@ -1,5 +1,6 @@
 package com.xpeppers.payments.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static kong.unirest.Unirest.post;
@@ -8,10 +9,15 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 @Component
 public class MicroserviceNotifier implements Notifier {
 
+    @Autowired
+    EurekaClient eurekaClient;
+
     @Override
     public void sendEmail(String to, String body) {
+        String url = eurekaClient.getNotificationServiceUrl() + "/v1/notifications";
+
         Notification notification = new Notification(to, body);
-        post("http://proxy/v1/notifications")
+        post(url)
                 .header("Content-Type", APPLICATION_JSON.toString())
                 .body(notification)
                 .asEmpty();

@@ -5,10 +5,18 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 public class MicroserviceNotifier implements Notifier {
 
+    private EurekaClient eurekaClient;
+
+    public MicroserviceNotifier(EurekaClient eurekaClient) {
+        this.eurekaClient = eurekaClient;
+    }
+
     @Override
     public void sendEmail(String to, String body) {
+        String url = eurekaClient.getNotificationServiceUrl() + "/v1/notifications";
+
         Notification notification = new Notification(to, body);
-        post("http://proxy/v1/notifications")
+        post(url)
                 .header("Content-Type", APPLICATION_JSON.toString())
                 .body(notification)
                 .asEmpty();
