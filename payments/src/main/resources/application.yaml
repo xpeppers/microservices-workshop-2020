@@ -1,2 +1,6 @@
 server:
   port: 8484
+
+spring:
+  rabbitmq:
+    host: rabbitmq

@@ -14,6 +14,9 @@ public class PaymentService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    PaymentPublisher paymentPublisher;
+
     public PaymentService(OrderRepository orderRepository, Notifier notifier) {
         this.orderRepository = orderRepository;
         this.notifier = notifier;
@@ -26,6 +29,8 @@ public class PaymentService {
 
         if (payment.isCompleted())
             orderRepository.markAsPaid(order);
+
+        paymentPublisher.publish(payment);
 
         return payment;
     }
