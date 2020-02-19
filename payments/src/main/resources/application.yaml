@@ -4,3 +4,17 @@ server:
 spring:
   rabbitmq:
     host: rabbitmq
+
+management:
+  endpoints:
+    web:
+      exposure.include: "*"
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true

@@ -1,5 +1,9 @@
 version: '3'
 
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
 services:
   proxy:
     image: traefik:v2.0
@@ -40,3 +44,28 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  prometheus:
+    image: prom/prometheus:v2.15.2
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    restart: always
+
+  grafana:
+    image: grafana/grafana:5.4.3
+    user: "104"
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: always
