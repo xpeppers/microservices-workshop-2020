@@ -29,3 +29,14 @@ services:
     build: ./notifications/
     labels:
       - "traefik.http.routers.notifications.rule=Path(`/v1/notifications`)"
+
+  invoices:
+    depends_on:
+      - rabbitmq
+    build: ./invoices/
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
