@@ -19,17 +19,12 @@ public class PaymentService {
     @Autowired
     PaymentPublisher paymentPublisher;
 
-    private MeterRegistry meterRegistry;
-    private Counter successfulPayments;
-    private Counter failedPayments;
+    @Autowired
+    PaymentInstrumentation instrumentation;
 
-    public PaymentService(OrderRepository orderRepository, Notifier notifier, MeterRegistry meterRegistry) {
+    public PaymentService(OrderRepository orderRepository, Notifier notifier) {
         this.orderRepository = orderRepository;
         this.notifier = notifier;
-        this.meterRegistry = meterRegistry;
-
-        this.successfulPayments = this.meterRegistry.counter("payments", "type", "successful");
-        this.failedPayments = this.meterRegistry.counter("payments", "type", "failed");
     }
 
     public Payment payOrderWith(UUID id) {
@@ -37,12 +32,10 @@ public class PaymentService {
 
         Payment payment = pay(order);
 
-        if (payment.isCompleted()) {
+        if (payment.isCompleted())
             orderRepository.markAsPaid(order);
-            successfulPayments.increment();
-        } else {
-            failedPayments.increment();
-        }
+
+        instrumentation.paymentProcessed(payment);
 
         paymentPublisher.publish(payment);
 
