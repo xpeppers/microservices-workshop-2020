@@ -1,5 +1,7 @@
 package com.xpeppers.payments.web;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +19,17 @@ public class PaymentService {
     @Autowired
     PaymentPublisher paymentPublisher;
 
-    public PaymentService(OrderRepository orderRepository, Notifier notifier) {
+    private MeterRegistry meterRegistry;
+    private Counter successfulPayments;
+    private Counter failedPayments;
+
+    public PaymentService(OrderRepository orderRepository, Notifier notifier, MeterRegistry meterRegistry) {
         this.orderRepository = orderRepository;
         this.notifier = notifier;
+        this.meterRegistry = meterRegistry;
+
+        this.successfulPayments = this.meterRegistry.counter("payments", "type", "successful");
+        this.failedPayments = this.meterRegistry.counter("payments", "type", "failed");
     }
 
     public Payment payOrderWith(UUID id) {
@@ -27,8 +37,12 @@ public class PaymentService {
 
         Payment payment = pay(order);
 
-        if (payment.isCompleted())
+        if (payment.isCompleted()) {
             orderRepository.markAsPaid(order);
+            successfulPayments.increment();
+        } else {
+            failedPayments.increment();
+        }
 
         paymentPublisher.publish(payment);
 
